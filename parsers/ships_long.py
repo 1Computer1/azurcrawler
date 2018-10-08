@@ -81,7 +81,7 @@ data = []
 fixtures = read_all_fixtures('ships_long')
 for fp in fixtures:
     data.append({
-        **dict({ 'page_url': fp.select_one('meta[property="og:url"]')['content'] }),
+        'page_url': fp.select_one('meta[property="og:url"]')['content'],
         **extract_names(fp),
         **extract_base_data(fp),
         **extract_stats(fp),

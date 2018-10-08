@@ -23,7 +23,7 @@ def extract_stats(tab):
     keys = stats_keys_for(equip_type)
 
     if not equip_type in ['Fighter', 'Dive Bomber']:
-        return { **dict(zip(keys, data)) }
+        return dict(zip(keys, data))
 
     # Special handling for aviation
     diff = len(data) - len(keys)
@@ -68,13 +68,11 @@ for fp in read_all_fixtures('equipment'):
         continue
 
     data.append({
-        **dict({
-            'page_url': fp.select_one('meta[property="og:url"]')['content'],
-            'name': fp.find('th').text.strip(),
-            'type': fp.find_all('tr')[2].select('td')[-1].text.strip(),
-            'icon': extract_picture(fp),
-            'types': [parse_tab(tab) for tab in fp.select('.tabbertab')]
-        }),
+        'page_url': fp.select_one('meta[property="og:url"]')['content'],
+        'name': fp.find('th').text.strip(),
+        'type': fp.find_all('tr')[2].select('td')[-1].text.strip(),
+        'icon': extract_picture(fp),
+        'types': [parse_tab(tab) for tab in fp.select('.tabbertab')]
     })
 
 save_json('equipment', data)
